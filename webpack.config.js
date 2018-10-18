@@ -52,5 +52,8 @@ module.exports = {
     alias: {
       Src: path.resolve(__dirname, 'src/')
     }
+  },
+  devServer: {
+    contentBase: './dist'
   }
 };
