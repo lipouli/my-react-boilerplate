@@ -1,6 +1,7 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+// already with webpack, no need to install
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
@@ -24,6 +25,14 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader'
+          }
+        ]
       }
     ]
   },
@@ -38,5 +47,10 @@ module.exports = {
       new UglifyJsPlugin({}),
       new OptimizeCSSAssetsPlugin({})
     ]
+  },
+  resolve: {
+    alias: {
+      Src: path.resolve(__dirname, 'src/')
+    }
   }
 };
