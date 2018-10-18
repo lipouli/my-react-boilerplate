@@ -18,5 +18,11 @@ body {
       display: block;
       margin: auto;
     }
+    button {
+      border-radius: 5px;
+      padding: 0.3rem;
+      margin: 0.1rem;
+      cursor: pointer;
+    }
   }
 }

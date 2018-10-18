@@ -4,7 +4,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 // already with webpack, no need to install
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-module.exports = {
+module.exports = (env, argv) => ({
   mode: 'development',
   entry: {
     main: path.resolve(__dirname, 'src/index.js'),
@@ -24,7 +24,10 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+        use: [
+          argv === 'production' ? MiniCssExtractPlugin.loader : 'style-loader',
+          'css-loader',
+          'sass-loader']
       },
       {
         test: /\.(png|jpg|gif)$/,
@@ -39,7 +42,8 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin({
       filename: '[name].css',
-      chunkFilename: '[id].css'
+      chunkFilename: '[id].css',
+      disable: argv.mode !== 'production'
     })
   ],
   optimization: {
@@ -54,6 +58,7 @@ module.exports = {
     }
   },
   devServer: {
-    contentBase: './dist'
+    contentBase: './dist',
+    hot: true
   }
-};
+});
